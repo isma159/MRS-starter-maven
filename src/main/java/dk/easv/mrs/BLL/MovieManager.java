@@ -28,4 +28,10 @@ public class MovieManager {
         List<Movie> searchResult = movieSearcher.search(allMovies, query);
         return searchResult;
     }
+
+    public Movie addRequestedMovie(String title, int year) throws Exception {
+
+        return movieDAO.createMovie(title, year);
+
+    }
 }

@@ -5,10 +5,17 @@ import dk.easv.mrs.BE.Movie;
 import dk.easv.mrs.GUI.Model.MovieModel;
 
 // Java Imports
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,6 +50,19 @@ public class MovieViewController implements Initializable {
                 e.printStackTrace();
             }
         });
+
+    }
+
+    @FXML
+    protected void onAddBtnClick() throws Exception {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/views/AddView.fxml"));
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        stage.setTitle("MRS");
+        stage.setScene(new Scene(root, 322, 289));
+        stage.show();
 
     }
 

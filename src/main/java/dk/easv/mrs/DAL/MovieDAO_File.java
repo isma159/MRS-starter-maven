@@ -45,20 +45,22 @@ public class MovieDAO_File implements IMovieDataAccess {
     public Movie createMovie(String title, int year) throws Exception {
 
         List<String> lines = Files.readAllLines(filePath);
-        lines.add(lines.size() + "," + year + "," + title);
+        //lines.add(lines.get(lines.size() - 1) + "," + year + "," + title);
 
 
         Movie movie = new Movie(lines.size(), year, title);
 
-        Path tempFile = Files.createFile(Paths.get("_temp"));
+        Path tempPathFile = Path.of(MOVIES_FILE + "_TEMP");
+        Files.createFile(tempPathFile);
+
         for (String line: lines) {
 
-            Files.write(tempFile, line.getBytes(StandardCharsets.UTF_8));
+            Files.write(tempPathFile, (line + "\r\n").getBytes(), APPEND);
 
         }
 
-        Files.copy(tempFile, filePath, REPLACE_EXISTING);
-        Files.deleteIfExists(tempFile);
+        Files.copy(tempPathFile, filePath, REPLACE_EXISTING);
+        Files.deleteIfExists(tempPathFile);
 
         return movie;
 

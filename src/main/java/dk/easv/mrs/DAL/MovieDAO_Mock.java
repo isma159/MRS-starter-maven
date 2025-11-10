@@ -1,5 +1,10 @@
 package dk.easv.mrs.DAL;
+
+// Project Imports
 import dk.easv.mrs.BE.Movie;
+
+// Java Imports
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +22,7 @@ public class MovieDAO_Mock implements IMovieDataAccess {
 
     @Override
     public List<Movie> getAllMovies() {
+
         return allMovies;
     }
 

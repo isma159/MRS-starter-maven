@@ -2,6 +2,7 @@ package dk.easv.mrs.GUI.Controller;
 
 // Project Imports
 import dk.easv.mrs.BE.Movie;
+import dk.easv.mrs.BLL.MovieManager;
 import dk.easv.mrs.GUI.Model.MovieModel;
 
 // Java Imports
@@ -25,6 +26,8 @@ public class MovieViewController implements Initializable {
     public TextField txtMovieSearch;
     public ListView<Movie> lstMovies;
     private MovieModel movieModel;
+
+    private MovieManager movieManager = new MovieManager();
 
     public MovieViewController()  {
 
@@ -56,14 +59,34 @@ public class MovieViewController implements Initializable {
     @FXML
     protected void onAddBtnClick() throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/views/AddView.fxml"));
+        FXMLLoader root = new FXMLLoader(getClass().getResource("/views/AddView.fxml"));
+        Scene scene = new Scene(root.load(), 322, 289);
         Stage stage = new Stage();
+
+        AddViewController controller = root.getController();
+        controller.setParent(this);
+
         stage.initModality(Modality.APPLICATION_MODAL);
 
-        stage.setTitle("MRS");
-        stage.setScene(new Scene(root, 322, 289));
+        stage.setTitle("Settings");
+        stage.setScene(scene);
         stage.show();
 
+
+
+    }
+
+    public void updateList() throws Exception {
+
+        txtMovieSearch.setText("");
+
+        lstMovies.getItems().clear();
+
+        for (Movie movie: movieManager.getAllMovies()) {
+
+            lstMovies.getItems().add(movie);
+
+        }
     }
 
     private void displayError(Throwable t)

@@ -9,6 +9,6 @@
    <children>
       <ListView fx:id="lstMovies" layoutY="54.0" prefHeight="156.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="54.0" />
       <TextField fx:id="txtMovieSearch" layoutX="10.0" layoutY="14.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-      <Button layoutX="278.0" layoutY="10.0" mnemonicParsing="false" onAction="#onAddBtnClick" text="Add..." AnchorPane.rightAnchor="16.0" />
+      <Button layoutX="278.0" layoutY="10.0" mnemonicParsing="false" onAction="#onAddBtnClick" text="Settings" AnchorPane.rightAnchor="16.0" />
    </children>
 </AnchorPane>

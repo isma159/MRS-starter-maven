@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static java.nio.file.StandardOpenOption.*;
@@ -45,12 +46,38 @@ public class MovieDAO_File implements IMovieDataAccess {
     public Movie createMovie(String title, int year) throws Exception {
 
         List<String> lines = Files.readAllLines(filePath);
-        //lines.add(lines.get(lines.size() - 1) + "," + year + "," + title);
+        String lastLine = lines.get(lines.size() - 1);
+        int nextId = Integer.parseInt(lastLine.split(",")[0]) + 1;
 
+        String nextLine = nextId + "," + year + "," + title;
 
-        Movie movie = new Movie(lines.size(), year, title);
+        Files.write(Path.of(MOVIES_FILE), (nextLine + "\r\n").getBytes(), APPEND);
 
-        Path tempPathFile = Path.of(MOVIES_FILE + "_TEMP");
+        Movie movie = new Movie(nextId, year, title);
+
+        return movie;
+
+    }
+
+    @Override
+    public void updateMovie(Movie movie) throws Exception {
+
+        List<String> lines = Files.readAllLines(filePath);
+
+        for (int i = 0; i < lines.size(); i++) {
+
+            String[] separatedLine = lines.get(i).split(",");
+            int id = Integer.parseInt(separatedLine[0]);
+
+            if (id == movie.getId()) {
+
+                lines.set(i, movie.getId() + "," + movie.getYear() + "," + movie.getTitle());
+
+            }
+
+        }
+
+        Path tempPathFile = Path.of("_temp/movie_titles_TEMP.txt");
         Files.createFile(tempPathFile);
 
         for (String line: lines) {
@@ -62,18 +89,48 @@ public class MovieDAO_File implements IMovieDataAccess {
         Files.copy(tempPathFile, filePath, REPLACE_EXISTING);
         Files.deleteIfExists(tempPathFile);
 
-        return movie;
-
-    }
-
-    @Override
-    public void updateMovie(Movie movie) throws Exception {
-
-
-
     }
 
     @Override
     public void deleteMovie(Movie movie) throws Exception {
+
+        List<String> lines = Files.readAllLines(filePath);
+        int index = 1;
+
+        for (int i = 0; i < lines.size(); i++) {
+
+            int id = Integer.parseInt(lines.get(i).split(",")[0]);
+
+            if (id == movie.getId()) {
+
+                lines.remove(i);
+                break;
+
+            }
+
+        }
+
+        for (String line: lines) {
+
+            String[] separatedLine = line.split(",");
+
+            lines.set(lines.indexOf(line), index + "," + separatedLine[1] + "," + separatedLine[2]);
+
+            index++;
+
+        }
+
+        Path tempPathFile = Path.of("_temp/movie_titles_TEMP.txt");
+        Files.createFile(tempPathFile);
+
+        for (String line: lines) {
+
+            Files.write(tempPathFile, (line + "\r\n").getBytes(), APPEND);
+
+        }
+
+        Files.copy(tempPathFile, filePath, REPLACE_EXISTING);
+        Files.deleteIfExists(tempPathFile);
+
     }
 }

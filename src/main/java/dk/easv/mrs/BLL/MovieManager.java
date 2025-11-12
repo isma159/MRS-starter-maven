@@ -6,6 +6,8 @@ import dk.easv.mrs.BLL.util.MovieSearcher;
 import dk.easv.mrs.DAL.IMovieDataAccess;
 import dk.easv.mrs.DAL.MovieDAO_File;
 import dk.easv.mrs.DAL.MovieDAO_Mock;
+import dk.easv.mrs.GUI.Controller.AddViewController;
+import dk.easv.mrs.GUI.Controller.MovieViewController;
 
 // Java Imports
 import java.util.List;
@@ -34,4 +36,18 @@ public class MovieManager {
         return movieDAO.createMovie(title, year);
 
     }
+
+    public void updateSelectedMovie(Movie movie) throws Exception {
+
+        movieDAO.updateMovie(movie);
+
+    }
+
+    public void deleteSelectedMovie(Movie movie) throws Exception {
+
+        movieDAO.deleteMovie(movie);
+
+    }
+
+
 }

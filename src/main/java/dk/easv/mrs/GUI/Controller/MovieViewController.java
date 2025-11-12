@@ -57,26 +57,32 @@ public class MovieViewController implements Initializable {
     }
 
     @FXML
-    protected void onAddBtnClick() throws Exception {
+    protected void onAddBtnClick() {
 
-        FXMLLoader root = new FXMLLoader(getClass().getResource("/views/AddView.fxml"));
-        Scene scene = new Scene(root.load(), 322, 289);
-        Stage stage = new Stage();
+        try {
+            FXMLLoader root = new FXMLLoader(getClass().getResource("/views/AddView.fxml"));
+            Scene scene = new Scene(root.load(), 322, 289);
+            Stage stage = new Stage();
 
-        AddViewController controller = root.getController();
-        controller.setParent(this);
+            AddViewController controller = root.getController();
+            controller.setParent(this);
 
-        stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initModality(Modality.APPLICATION_MODAL);
 
-        stage.setTitle("Settings");
-        stage.setScene(scene);
-        stage.show();
+            stage.setTitle("Settings");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+
+            displayError(e);
+
+        }
 
 
 
     }
 
-    public void updateList() throws Exception {
+    public void updateList() {
 
         txtMovieSearch.setText("");
 

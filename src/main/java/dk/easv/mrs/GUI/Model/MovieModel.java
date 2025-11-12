@@ -74,6 +74,8 @@ public class MovieModel {
 
         movieManager.updateSelectedMovie(movieToBeUpdated);
 
+
+
         int index = moviesToBeViewed.indexOf(movieToBeUpdated);
         moviesToBeViewed.set(index, movieToBeUpdated);
 

@@ -6,6 +6,7 @@ import dk.easv.mrs.BLL.WebhookSender;
 import dk.easv.mrs.GUI.Model.MovieModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -24,46 +25,59 @@ public class AddViewController {
     private TextField txtFieldYear, txtFieldTitle, txtFieldChosenMovie, txtFieldTitleEdit, txtFieldYearEdit, txtFieldChosenMovie2;
 
     public AddViewController() throws Exception {
-    }
-
-    @FXML
-    protected void onAddBtnClick() throws Exception {
-
-        Stage stage = (Stage) txtFieldTitle.getScene().getWindow();
-
-        if (txtFieldYear.getText().matches("[0-9]+")) {
-
-            movieModel.createMovie(txtFieldTitle.getText(), Integer.parseInt(txtFieldYear.getText()));
-
-            this.movieViewController.updateList();
-
-            stage.close();
-
-        }
 
     }
 
     @FXML
-    protected void onUpdateBtnClick() throws Exception {
+    protected void onAddBtnClick() {
 
-        Stage stage = (Stage) txtFieldTitle.getScene().getWindow();
+        try {
+            Stage stage = (Stage) txtFieldTitle.getScene().getWindow();
 
-        Movie chosenMovie = this.movieViewController.lstMovies.getSelectionModel().getSelectedItem();
+            if (txtFieldYear.getText().matches("[0-9]+")) {
 
-        if (chosenMovie != null) {
-
-            System.out.println(txtFieldTitleEdit.getText().isEmpty());
-            if (txtFieldYearEdit.getText().matches("[0-9]+") && !txtFieldTitleEdit.getText().isBlank()) {
-
-                Movie movie = new Movie(chosenMovie.getId(), Integer.parseInt(txtFieldYearEdit.getText()), txtFieldTitleEdit.getText());
-
-                movieModel.updateMovie(movie);
+                movieModel.createMovie(txtFieldTitle.getText(), Integer.parseInt(txtFieldYear.getText()));
 
                 this.movieViewController.updateList();
 
                 stage.close();
 
             }
+        } catch (Exception e) {
+
+            displayError(e);
+
+        }
+
+    }
+
+    @FXML
+    protected void onUpdateBtnClick() {
+
+        try {
+            Stage stage = (Stage) txtFieldTitle.getScene().getWindow();
+
+            Movie chosenMovie = this.movieViewController.lstMovies.getSelectionModel().getSelectedItem();
+
+            if (chosenMovie != null) {
+
+                System.out.println(txtFieldTitleEdit.getText().isEmpty());
+                if (txtFieldYearEdit.getText().matches("[0-9]+") && !txtFieldTitleEdit.getText().isBlank()) {
+
+                    Movie movie = new Movie(chosenMovie.getId(), Integer.parseInt(txtFieldYearEdit.getText()), txtFieldTitleEdit.getText());
+
+                    movieModel.updateMovie(movie);
+
+                    this.movieViewController.updateList();
+
+                    stage.close();
+
+                }
+
+            }
+        } catch (Exception e) {
+
+            displayError(e);
 
         }
     }
@@ -86,24 +100,39 @@ public class AddViewController {
     }
 
     @FXML
-    protected void onDeleteBtnClick() throws Exception {
+    protected void onDeleteBtnClick() {
 
-        Stage stage = (Stage) txtFieldTitle.getScene().getWindow();
+        try {
+            Stage stage = (Stage) txtFieldTitle.getScene().getWindow();
 
-        Movie chosenMovie = this.movieViewController.lstMovies.getSelectionModel().getSelectedItem();
+            Movie chosenMovie = this.movieViewController.lstMovies.getSelectionModel().getSelectedItem();
 
-        movieModel.deleteMovie(chosenMovie);
+            movieModel.deleteMovie(chosenMovie);
 
-        this.movieViewController.updateList();
+            this.movieViewController.updateList();
 
+            stage.close();
 
-        stage.close();
+        } catch (Exception e) {
+
+            displayError(e);
+
+        }
+
     }
 
     public void setParent(MovieViewController controller) {
 
         this.movieViewController = controller;
 
+    }
+
+    private void displayError(Throwable t)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Something went wrong");
+        alert.setHeaderText(t.getMessage());
+        alert.showAndWait();
     }
 
 }

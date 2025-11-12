@@ -16,6 +16,8 @@ public class WebhookSender {
 
             String webhookURL = "https://discord.com/api/webhooks/1427023260561838261/SsYZYBJPRroOmhrTD2mAYdxWW1imLe_BCIJjzZKe1PXs2tXDEPDenopCCAgmR_rjocTw";
 
+
+
             connection = (HttpsURLConnection) new URL(webhookURL).openConnection();
 
             connection.setRequestMethod("POST");
@@ -25,7 +27,7 @@ public class WebhookSender {
 
             try (OutputStream output = connection.getOutputStream()) {
 
-                output.write(("{\"content\":\"" + command + "\"}").getBytes(StandardCharsets.UTF_8));
+                output.write((command).getBytes(StandardCharsets.UTF_8));
 
             }
 

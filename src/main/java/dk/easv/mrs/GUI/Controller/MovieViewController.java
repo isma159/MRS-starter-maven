@@ -80,13 +80,7 @@ public class MovieViewController implements Initializable {
 
         txtMovieSearch.setText("");
 
-        lstMovies.getItems().clear();
-
-        for (Movie movie: movieManager.getAllMovies()) {
-
-            lstMovies.getItems().add(movie);
-
-        }
+        lstMovies.refresh();
     }
 
     private void displayError(Throwable t)

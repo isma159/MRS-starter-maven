@@ -3,7 +3,6 @@ package dk.easv.mrs.BLL;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.OutputStream;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
 public class WebhookSender {

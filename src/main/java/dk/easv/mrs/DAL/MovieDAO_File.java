@@ -5,12 +5,10 @@ import dk.easv.mrs.BE.Movie;
 
 // Java Imports
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static java.nio.file.StandardOpenOption.*;
@@ -53,9 +51,7 @@ public class MovieDAO_File implements IMovieDataAccess {
 
         Files.write(Path.of(MOVIES_FILE), (nextLine + "\r\n").getBytes(), APPEND);
 
-        Movie movie = new Movie(nextId, year, title);
-
-        return movie;
+        return new Movie(nextId, year, title);
 
     }
 

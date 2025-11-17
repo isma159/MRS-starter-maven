@@ -2,21 +2,17 @@ package dk.easv.mrs.GUI.Controller;
 
 // Project Imports
 import dk.easv.mrs.BE.Movie;
-import dk.easv.mrs.BLL.MovieManager;
 import dk.easv.mrs.GUI.Model.MovieModel;
 
 // Java Imports
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,10 +20,15 @@ public class MovieViewController implements Initializable {
 
 
     public TextField txtMovieSearch;
-    public ListView<Movie> lstMovies;
+    public TableView<Movie> tableMovies;
     private MovieModel movieModel;
 
-    private MovieManager movieManager = new MovieManager();
+    public Button btnSearch;
+    @FXML
+    private TableColumn<Movie, Integer> idColumn, yearColumn;
+    @FXML
+    private TableColumn<Movie, String> titleColumn;
+
 
     public MovieViewController()  {
 
@@ -43,16 +44,16 @@ public class MovieViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        lstMovies.setItems(movieModel.getObservableMovies());
 
-        txtMovieSearch.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            try {
-                movieModel.searchMovie(newValue);
-            } catch (Exception e) {
-                displayError(e);
-                e.printStackTrace();
-            }
-        });
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("Id"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
+        yearColumn.setCellValueFactory(new PropertyValueFactory<>("Year"));
+
+        tableMovies.setItems(movieModel.getObservableMovies());
+
+
+
+        //tableMovies.setRowFactory();
 
     }
 
@@ -78,7 +79,17 @@ public class MovieViewController implements Initializable {
 
         }
 
+    }
 
+    @FXML
+    private void onSearchBtnClick() {
+
+        try {
+            movieModel.searchMovie(txtMovieSearch.getText());
+        } catch (Exception e) {
+            displayError(e);
+            e.printStackTrace();
+        }
 
     }
 
@@ -86,7 +97,12 @@ public class MovieViewController implements Initializable {
 
         txtMovieSearch.setText("");
 
-        lstMovies.refresh();
+        tableMovies.refresh();
+
+        //lstMovies.getItems().clear();
+
+        //lstMovies.setItems(movieModel.getObservableMovies());
+
     }
 
     private void displayError(Throwable t)

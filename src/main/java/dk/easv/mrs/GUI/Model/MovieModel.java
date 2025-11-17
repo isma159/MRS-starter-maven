@@ -72,12 +72,17 @@ public class MovieModel {
 
     public void updateMovie(Movie movieToBeUpdated) throws Exception {
 
+        for (int i = 0; i < moviesToBeViewed.size(); i++) {
+
+            if (moviesToBeViewed.get(i).getId() == movieToBeUpdated.getId()) {
+
+                moviesToBeViewed.set(i, movieToBeUpdated);
+                break;
+            }
+
+        }
+
         movieManager.updateSelectedMovie(movieToBeUpdated);
-
-
-
-        int index = moviesToBeViewed.indexOf(movieToBeUpdated);
-        moviesToBeViewed.set(index, movieToBeUpdated);
 
         state = "Successful";
         command = "|Updated movie| " + movieToBeUpdated.toString();

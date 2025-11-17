@@ -1,20 +1,14 @@
 package dk.easv.mrs.GUI.Controller;
 
+// Project imports
 import dk.easv.mrs.BE.Movie;
-import dk.easv.mrs.BLL.MovieManager;
-import dk.easv.mrs.BLL.WebhookSender;
 import dk.easv.mrs.GUI.Model.MovieModel;
+
+// Java imports
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.awt.*;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 public class AddViewController {
 
@@ -38,7 +32,7 @@ public class AddViewController {
 
                 movieModel.createMovie(txtFieldTitle.getText(), Integer.parseInt(txtFieldYear.getText()));
 
-                this.movieViewController.updateList();
+                this.movieViewController.btnSearch.fire();
 
                 stage.close();
 
@@ -57,7 +51,7 @@ public class AddViewController {
         try {
             Stage stage = (Stage) txtFieldTitle.getScene().getWindow();
 
-            Movie chosenMovie = this.movieViewController.lstMovies.getSelectionModel().getSelectedItem();
+            Movie chosenMovie = this.movieViewController.tableMovies.getSelectionModel().getSelectedItem();
 
             if (chosenMovie != null) {
 
@@ -68,7 +62,7 @@ public class AddViewController {
 
                     movieModel.updateMovie(movie);
 
-                    this.movieViewController.updateList();
+                    this.movieViewController.btnSearch.fire();
 
                     stage.close();
 
@@ -87,11 +81,11 @@ public class AddViewController {
 
         if (this.movieViewController != null) {
 
-            if (this.movieViewController.lstMovies.getSelectionModel().getSelectedItem() != null) {
+            if (this.movieViewController.tableMovies.getSelectionModel().getSelectedItem() != null) {
 
-                txtFieldChosenMovie.setText(this.movieViewController.lstMovies.getSelectionModel().getSelectedItem().toString());
+                txtFieldChosenMovie.setText(this.movieViewController.tableMovies.getSelectionModel().getSelectedItem().toString());
 
-                txtFieldChosenMovie2.setText(this.movieViewController.lstMovies.getSelectionModel().getSelectedItem().toString());
+                txtFieldChosenMovie2.setText(this.movieViewController.tableMovies.getSelectionModel().getSelectedItem().toString());
 
             }
 
@@ -105,11 +99,11 @@ public class AddViewController {
         try {
             Stage stage = (Stage) txtFieldTitle.getScene().getWindow();
 
-            Movie chosenMovie = this.movieViewController.lstMovies.getSelectionModel().getSelectedItem();
+            Movie chosenMovie = this.movieViewController.tableMovies.getSelectionModel().getSelectedItem();
 
             movieModel.deleteMovie(chosenMovie);
 
-            this.movieViewController.updateList();
+            this.movieViewController.btnSearch.fire();
 
             stage.close();
 
